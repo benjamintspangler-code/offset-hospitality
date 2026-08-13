@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offset Hospitality — Private Chef, Denver</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=Work+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F4EE;
+    --paper-dim:#E6EADF;
+    --ink:#16241B;
+    --ink-soft:#46604E;
+    --green:#1C2E20;
+    --green-soft:#2D4433;
+    --header:#26402E;
+    --footer:#466140;
+    --wood:#3E2C1E;
+    --wood-light:#9AA3A8;
+    --wood-line:rgba(242,244,238,0.16);
+    --accent:#3F6B46;
+    --moss:#8FA463;
+    --line:rgba(22,36,27,0.18);
+    --line-on-dark:rgba(234,240,228,0.22);
+    --paper-soft:rgba(242,244,238,0.72);
+    --radius:2px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    margin:0;
+  }
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.03em;
+  }
+  a{color:inherit;}
+  button{font-family:inherit;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ---------- Layout shell ---------- */
+  .wrap{max-width:1120px; margin:0 auto; padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  header.site{
+    position:sticky; top:0; z-index:40;
+    background:var(--header);
+    border-bottom:1px solid var(--line-on-dark);
+    color:var(--paper);
+  }
+  .nav-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 0;
+    max-width:1120px; margin:0 auto; padding-left:32px; padding-right:32px;
+  }
+  .wordmark{
+    font-family:'Fraunces', serif; font-weight:600; font-size:1.35rem;
+    letter-spacing:0.01em;
+    display:flex; flex-direction:column; gap:3px; align-items:flex-start;
+  }
+  .wm-top{
+    display:flex; align-items:center; gap:7px;
+  }
+  .brand-sub{
+    font-size:0.74em; font-weight:500; transform:translateY(0.14em);
+  }
+  .ofs-word{
+    display:inline-block; transform:translateY(-0.02em);
+    font-size:0.9em;
+  }
+  .ofs-word sub{
+    font-size:0.86em; line-height:0; font-weight:inherit; vertical-align:-0.16em;
+  }
+  .sr-only{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+  .wordmark .tagline{
+    font-family:'IBM Plex Mono', monospace; font-size:0.56rem;
+    letter-spacing:0.14em; color:var(--paper-soft); font-weight:400;
+    text-transform:uppercase;
+    align-self:flex-end;
+  }
+  nav.primary{display:flex; gap:2px; align-items:center;}
+  nav.primary button.navlink{
+    background:none; border:none; cursor:pointer;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--paper-soft);
+    padding:10px 14px;
+    border-bottom:1px solid transparent;
+    transition:color 0.15s ease, border-color 0.15s ease;
+  }
+  nav.primary button.navlink:hover{color:var(--paper);}
+  nav.primary button.navlink[aria-current="page"]{
+    color:var(--paper); border-bottom-color:var(--moss);
+  }
+  .cta-btn{
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem;
+    letter-spacing:0.08em; text-transform:uppercase;
+    background:var(--ink); color:var(--paper);
+    border:1px solid var(--ink);
+    padding:11px 18px; cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .cta-btn:hover{background:var(--accent); border-color:var(--accent);}
+  .nav-row .cta-btn{background:var(--paper); color:var(--header); border-color:var(--paper);}
+  .nav-row .cta-btn:hover{background:var(--moss); color:var(--header); border-color:var(--moss);}
+  .hide-mobile{display:inline-flex;}
+  .menu-toggle{display:none; background:none; border:1px solid var(--line-on-dark); color:var(--paper); padding:8px 12px; cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:0.08em;}
+  @media (max-width:960px){
+    nav.primary{display:none;}
+    nav.primary.open{
+      display:flex; flex-direction:column; align-items:flex-start;
+      position:absolute; left:0; right:0; top:64px;
+      background:var(--wood); border-bottom:1px solid var(--wood-line);
+      padding:8px 20px 18px;
+    }
+    .menu-toggle{display:inline-flex;}
+    .hide-mobile{display:none;}
+  }
+
+  section{display:none; animation:fade 0.35s ease;}
+  section.active{display:block;}
+  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- dot-leader utility (signature motif) ---------- */
+  .leader{
+    flex:1; overflow:hidden; position:relative; top:-0.35em;
+    border-bottom:1px dotted var(--ink-soft);
+    margin:0 10px;
+  }
+  .leader.on-dark{border-bottom-color:var(--line-on-dark);}
+  .row-leader{display:flex; align-items:baseline;}
+
+  /* ---------- Home ---------- */
+  .hero{padding:96px 0 72px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem;
+    letter-spacing:0.18em; text-transform:uppercase; color:var(--accent);
+    margin-bottom:22px;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 6vw, 4.6rem);
+    line-height:1.04;
+    max-width:14ch;
+  }
+  .hero h1 em{font-style:italic; color:var(--green);}
+  .hero p.lede{
+    font-size:1.1rem; color:var(--ink-soft); max-width:46ch;
+    margin-top:26px; line-height:1.6;
+  }
+  .hero-actions{display:flex; gap:14px; margin-top:36px; flex-wrap:wrap;}
+  .btn-outline{
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem;
+    letter-spacing:0.08em; text-transform:uppercase;
+    background:transparent; color:var(--ink);
+    border:1px solid var(--ink); padding:11px 18px; cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .btn-outline:hover{background:var(--ink); color:var(--paper);}
+
+  .preview-strip{
+    background:var(--green); color:var(--paper);
+    padding:56px 0; margin-top:8px;
+  }
+  .preview-strip .label{
+    font-family:'IBM Plex Mono', monospace; font-size:0.7rem;
+    letter-spacing:0.14em; text-transform:uppercase; color:var(--moss);
+    margin-bottom:24px;
+  }
+  .preview-item{
+    display:flex; align-items:baseline; gap:10px;
+    padding:14px 0; border-bottom:1px solid var(--line-on-dark);
+    font-family:'Fraunces', serif; font-size:1.15rem;
+  }
+  .preview-item:last-child{border-bottom:none;}
+  .preview-item .price{font-family:'IBM Plex Mono', monospace; font-size:0.85rem; color:var(--moss);}
+
+  .split{
+    display:grid; grid-template-columns:1fr 1fr; gap:56px;
+    padding:88px 0; align-items:center;
+  }
+  @media (max-width:820px){ .split{grid-template-columns:1fr; gap:32px; padding:56px 0;} }
+  .frame{
+    aspect-ratio:4/5; border:1px dashed var(--ink-soft);
+    display:flex; align-items:center; justify-content:center;
+    text-align:center; color:var(--ink-soft); padding:24px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.06em;
+    background:var(--paper-dim);
+  }
+  .split h2{font-size:2rem; margin-bottom:18px;}
+  .split p{color:var(--ink-soft); line-height:1.7; margin-bottom:16px;}
+
+  /* ---------- Section heads ---------- */
+  .page-head{padding:72px 0 40px;}
+  .page-head .eyebrow{margin-bottom:14px;}
+  .page-head h2{font-size:clamp(2rem, 4vw, 3rem);}
+  .page-head p{color:var(--ink-soft); max-width:56ch; margin-top:18px; line-height:1.65;}
+
+  /* ---------- Menus ---------- */
+  .menu-tabs{display:flex; gap:8px; margin:36px 0 8px; flex-wrap:wrap;}
+  .menu-tab{
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem;
+    letter-spacing:0.06em; text-transform:uppercase;
+    background:none; border:1px solid var(--line); padding:10px 16px; cursor:pointer;
+    color:var(--ink-soft);
+  }
+  .menu-tab[aria-selected="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+  .menu-card{display:none; padding:36px 0 80px;}
+  .menu-card.active{display:block;}
+  .menu-card .card-head{display:flex; justify-content:space-between; align-items:baseline; border-bottom:2px solid var(--ink); padding-bottom:16px; margin-bottom:8px; flex-wrap:wrap; gap:8px;}
+  .menu-card .card-head h3{font-size:1.7rem;}
+  .menu-card .card-head .price-tag{font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--accent);}
+  .course{padding:20px 0; border-bottom:1px solid var(--line);}
+  .course .row-leader{margin-bottom:6px;}
+  .course .num{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--accent); min-width:20px;}
+  .course .name{font-family:'Fraunces', serif; font-size:1.15rem;}
+  .course .desc{color:var(--ink-soft); font-size:0.95rem; padding-left:30px; max-width:60ch;}
+  .menu-note{margin-top:28px; font-size:0.85rem; color:var(--ink-soft); border-left:2px solid var(--moss); padding-left:14px;}
+
+  /* ---------- Gallery ---------- */
+  .gallery-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; padding-bottom:80px;}
+  @media (max-width:820px){ .gallery-grid{grid-template-columns:repeat(2, 1fr);} }
+  @media (max-width:520px){ .gallery-grid{grid-template-columns:1fr;} }
+  .plate{
+    aspect-ratio:1/1; border:1px dashed var(--ink-soft); background:var(--paper-dim);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+    color:var(--ink-soft); text-align:center; padding:16px;
+  }
+  .plate .plate-num{font-family:'IBM Plex Mono', monospace; font-size:0.7rem; letter-spacing:0.1em; color:var(--accent);}
+  .plate .plate-label{font-family:'Fraunces', serif; font-size:0.95rem; font-style:italic;}
+
+  /* ---------- About ---------- */
+  .about-body{padding:8px 0 80px; max-width:70ch;}
+  .about-body p{line-height:1.75; color:var(--ink-soft); margin-bottom:20px; font-size:1.02rem;}
+  .stat-row{display:flex; gap:44px; margin:40px 0 8px; flex-wrap:wrap;}
+  .stat .num{font-family:'Fraunces', serif; font-size:2.2rem;}
+  .stat .lbl{font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft);}
+
+  /* ---------- Testimonials ---------- */
+  .testi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; padding-bottom:80px;}
+  @media (max-width:820px){ .testi-grid{grid-template-columns:1fr;} }
+  .testi{border-top:2px solid var(--ink); padding-top:18px;}
+  .testi .sample-tag{font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--moss); margin-bottom:12px; display:block;}
+  .testi p.quote{font-family:'Fraunces', serif; font-style:italic; font-size:1.1rem; line-height:1.55; margin-bottom:16px;}
+  .testi .attr{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--ink-soft);}
+
+  /* ---------- Contact ---------- */
+  .contact-wrap{display:grid; grid-template-columns:1fr 1fr; gap:60px; padding-bottom:96px;}
+  @media (max-width:820px){ .contact-wrap{grid-template-columns:1fr; gap:36px;} }
+  .contact-info .row-leader{padding:14px 0; border-bottom:1px solid var(--line);}
+  .contact-info .k{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-soft);}
+  .contact-info .v{font-family:'Fraunces', serif; font-size:1.05rem; white-space:nowrap;}
+  form.book label{display:block; font-family:'IBM Plex Mono', monospace; font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:8px;}
+  form.book .field{margin-bottom:22px;}
+  form.book input, form.book textarea{
+    width:100%; background:transparent; border:none; border-bottom:1px solid var(--line);
+    padding:8px 2px; font-family:'Work Sans', sans-serif; font-size:1rem; color:var(--ink);
+  }
+  form.book input:focus, form.book textarea:focus{border-bottom-color:var(--accent);}
+  form.book textarea{resize:vertical; min-height:90px;}
+  form.book .row2{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  @media (max-width:480px){ form.book .row2{grid-template-columns:1fr;} }
+
+  /* ---------- Footer ---------- */
+  footer{background:var(--footer); color:var(--wood-light); padding:44px 0;}
+  footer .foot-row{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:12px;}
+  footer .foot-row .mono{font-size:0.7rem; letter-spacing:0.06em; color:var(--wood-light); opacity:0.75;}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav-row">
+    <div class="wordmark">
+      <div class="wm-top"><span class="ofs-word" aria-hidden="true">OFF<sub>SET</sub></span><span class="sr-only">Offset</span> <span class="brand-sub">Hospitality</span></div>
+      <span class="tagline">Front Range, Colorado</span>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+    <nav class="primary" id="primaryNav">
+      <button class="navlink" data-target="home" aria-current="page">Home</button>
+      <button class="navlink" data-target="menus">Menus</button>
+      <button class="navlink" data-target="gallery">Gallery</button>
+      <button class="navlink" data-target="about">About</button>
+      <button class="navlink" data-target="testimonials">Testimonials</button>
+      <button class="navlink" data-target="contact">Contact</button>
+    </nav>
+    <button class="cta-btn hide-mobile" data-target="contact">Reserve a Date</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HOME -->
+  <section id="home" class="active">
+    <div class="hero">
+      <div class="eyebrow">Private Chef · Denver, CO</div>
+      <h1>A chef, not <em>a reservation.</em></h1>
+      <p class="lede">Offset Hospitality brings a decade of restaurant cooking directly into your kitchen — full-service private dining for tables of two to twenty, cooked to order where you already are.</p>
+      <div class="hero-actions">
+        <button class="cta-btn" data-target="contact">Reserve a Date</button>
+        <button class="btn-outline" data-target="menus">View Sample Menus</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENUS -->
+  <section id="menus">
+    <div class="page-head">
+      <div class="eyebrow">Menus</div>
+      <h2>Three starting points.</h2>
+      <p>Every menu is rebuilt around the season, the guest count, and any dietary needs — these three are a starting reference, not a fixed list. Pricing shown is per guest and scales with course count and sourcing.</p>
+    </div>
+
+    <div class="menu-tabs" role="tablist">
+      <button class="menu-tab" data-menu="frontrange" aria-selected="true">The Front Range</button>
+      <button class="menu-tab" data-menu="market">Market Table</button>
+      <button class="menu-tab" data-menu="livefire">Live Fire</button>
+    </div>
+
+    <div class="menu-card active" id="frontrange">
+      <div class="card-head">
+        <h3>The Front Range</h3>
+        <span class="price-tag mono">from $145 / guest</span>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">01</span><span class="name">Snack</span><span class="leader"></span></div>
+        <div class="desc">Trout roe, rye crisp, crème fraîche</div>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">02</span><span class="name">First</span><span class="leader"></span></div>
+        <div class="desc">Roasted beet, goat cheese, hazelnut, sherry vinegar</div>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">03</span><span class="name">Second</span><span class="leader"></span></div>
+        <div class="desc">Seared scallop, brown butter, sweet corn, chili oil</div>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">04</span><span class="name">Main</span><span class="leader"></span></div>
+        <div class="desc">Dry-aged ribeye, charred onion, bordelaise</div>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">05</span><span class="name">Dessert</span><span class="leader"></span></div>
+        <div class="desc">Brown butter cake, stone fruit, honey ice cream</div>
+      </div>
+      <p class="menu-note">Wine pairing available on request. Vegetarian and allergy adaptations built into every course.</p>
+    </div>
+
+    <div class="menu-card" id="market">
+      <div class="card-head">
+        <h3>Market Table</h3>
+        <span class="price-tag mono">from $115 / guest</span>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">01</span><span class="name">Snack</span><span class="leader"></span></div>
+        <div class="desc">Marinated olives, citrus, chili</div>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">02</span><span class="name">First</span><span class="leader"></span></div>
+        <div class="desc">Heirloom tomato, burrata, basil oil</div>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">03</span><span class="name">Second</span><span class="leader"></span></div>
+        <div class="desc">Grilled peach, prosciutto, arugula, pecorino</div>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">04</span><span class="name">Main</span><span class="leader"></span></div>
+        <div class="desc">Pan-roasted halibut, fennel, saffron broth</div>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">05</span><span class="name">Dessert</span><span class="leader"></span></div>
+        <div class="desc">Olive oil cake, mascarpone, seasonal berries</div>
+      </div>
+      <p class="menu-note">Produce-forward and lighter — built for warm-weather dinners and longer tables.</p>
+    </div>
+
+    <div class="menu-card" id="livefire">
+      <div class="card-head">
+        <h3>Live Fire</h3>
+        <span class="price-tag mono">from $130 / guest</span>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">01</span><span class="name">Snack</span><span class="leader"></span></div>
+        <div class="desc">Charred shishito, lime, flake salt</div>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">02</span><span class="name">First</span><span class="leader"></span></div>
+        <div class="desc">Grilled bread, whipped lardo, honey</div>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">03</span><span class="name">Second</span><span class="leader"></span></div>
+        <div class="desc">Smoked wings, Alabama white sauce</div>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">04</span><span class="name">Main</span><span class="leader"></span></div>
+        <div class="desc">Whole grilled branzino or tomahawk, chimichurri</div>
+      </div>
+      <div class="course">
+        <div class="row-leader"><span class="num mono">05</span><span class="name">Dessert</span><span class="leader"></span></div>
+        <div class="desc">Campfire s'more, torched marshmallow</div>
+      </div>
+      <p class="menu-note">Built for patios, backyards, and anywhere there's room for a grill or a fire pit.</p>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="page-head">
+      <div class="eyebrow">Gallery</div>
+      <h2>Plates from the table.</h2>
+      <p>Placeholder frames below — swap each one for your own event photography. Keep captions short: dish name and setting is enough.</p>
+    </div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="page-head">
+      <div class="eyebrow">About</div>
+      <h2>Ten years in restaurant kitchens. Now, in yours.</h2>
+    </div>
+    <div class="about-body">
+      <p>Offset Hospitality is built on a decade of professional kitchen work — the kind of pace, standards, and precision that comes from running a line, not just cooking at home. That experience now goes into private dinners instead of a dining room: the same technique and sourcing, without the wait, the noise, or the fixed menu.</p>
+      <p>Every event starts with a conversation about the space, the guest list, and what the night is for — a birthday, an anniversary, a client dinner, or just a Tuesday worth doing properly. From there, the menu, timing, and service style are built around that one table.</p>
+      <p>Based in Denver, available across the Front Range for in-home dinners, small private events, and seasonal pop-ups.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="num display">10+</div><div class="lbl">Years in professional kitchens</div></div>
+        <div class="stat"><div class="num display">2–20</div><div class="lbl">Guests per event</div></div>
+        <div class="stat"><div class="num display">CO</div><div class="lbl">Denver &amp; Front Range</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="page-head">
+      <div class="eyebrow">Testimonials</div>
+      <h2>What guests say.</h2>
+      <p>Sample quotes below, styled the way real ones will look — replace with actual guest feedback as events happen.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi">
+        <span class="sample-tag">Sample — replace with a real quote</span>
+        <p class="quote">"It felt like our own private restaurant for the night — course timing, plating, all of it, right in our kitchen."</p>
+        <div class="attr">— Guest, dinner for 8, Cherry Creek</div>
+      </div>
+      <div class="testi">
+        <span class="sample-tag">Sample — replace with a real quote</span>
+        <p class="quote">"Booked for a work dinner and it was the easiest, best-reviewed client event we've done."</p>
+        <div class="attr">— Guest, corporate dinner for 12</div>
+      </div>
+      <div class="testi">
+        <span class="sample-tag">Sample — replace with a real quote</span>
+        <p class="quote">"Handled a dairy allergy and a picky eight-year-old without missing a beat. Every course landed."</p>
+        <div class="attr">— Guest, family dinner for 6</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="page-head">
+      <div class="eyebrow">Contact</div>
+      <h2>Reserve a date.</h2>
+      <p>Tell us the date, guest count, and occasion — a proposed menu and quote typically follow within two business days.</p>
+    </div>
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <div class="row-leader"><span class="k">Email</span><span class="leader"></span><span class="v">chef@offsethospitality.com</span></div>
+        <div class="row-leader"><span class="k">Phone</span><span class="leader"></span><span class="v">(303) 555-0142</span></div>
+        <div class="row-leader"><span class="k">Service Area</span><span class="leader"></span><span class="v">Denver &amp; Front Range</span></div>
+        <div class="row-leader"><span class="k">Lead Time</span><span class="leader"></span><span class="v">2+ weeks preferred</span></div>
+      </div>
+      <form class="book" action="mailto:chef@offsethospitality.com" method="post" enctype="text/plain">
+        <div class="row2">
+          <div class="field">
+            <label for="fname">Name</label>
+            <input type="text" id="fname" name="Name" required>
+          </div>
+          <div class="field">
+            <label for="fdate">Event Date</label>
+            <input type="date" id="fdate" name="Event Date">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="femail">Email</label>
+            <input type="email" id="femail" name="Email" required>
+          </div>
+          <div class="field">
+            <label for="fguests">Guest Count</label>
+            <input type="number" id="fguests" name="Guest Count" min="1">
+          </div>
+        </div>
+        <div class="field">
+          <label for="fmsg">Occasion &amp; Details</label>
+          <textarea id="fmsg" name="Details" placeholder="What's the occasion, location, and anything we should know?"></textarea>
+        </div>
+        <button class="cta-btn" type="submit">Send Inquiry</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <span class="mono">OFFSET HOSPITALITY — DENVER, CO</span>
+    <span class="mono">© 2026 · PRIVATE CHEF SERVICES</span>
+  </div>
+</footer>
+
+<script>
+  // ---- Section navigation ----
+  const sections = document.querySelectorAll('main > section');
+  const navlinks = document.querySelectorAll('.navlink, [data-target]');
+
+  function showSection(id){
+    sections.forEach(s => s.classList.toggle('active', s.id === id));
+    document.querySelectorAll('.navlink').forEach(l => {
+      if(l.dataset.target === id){ l.setAttribute('aria-current','page'); }
+      else { l.removeAttribute('aria-current'); }
+    });
+    document.getElementById('primaryNav').classList.remove('open');
+    document.getElementById('menuToggle').setAttribute('aria-expanded','false');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  navlinks.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.target;
+      if(target) showSection(target);
+    });
+  });
+
+  document.getElementById('menuToggle').addEventListener('click', () => {
+    const nav = document.getElementById('primaryNav');
+    const open = nav.classList.toggle('open');
+    document.getElementById('menuToggle').setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  // ---- Menu tabs ----
+  document.querySelectorAll('.menu-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.menu-tab').forEach(t => t.setAttribute('aria-selected','false'));
+      tab.setAttribute('aria-selected','true');
+      document.querySelectorAll('.menu-card').forEach(c => c.classList.remove('active'));
+      document.getElementById(tab.dataset.menu).classList.add('active');
+    });
+  });
+
+  // ---- Gallery placeholders ----
+  const galleryGrid = document.getElementById('galleryGrid');
+  for(let i=1; i<=9; i++){
+    const div = document.createElement('div');
+    div.className = 'plate';
+    div.innerHTML = `<span class="plate-num mono">PLATE ${String(i).padStart(2,'0')}</span><span class="plate-label">Add photo</span>`;
+    galleryGrid.appendChild(div);
+  }
+</script>
+
+</body>
+</html>
