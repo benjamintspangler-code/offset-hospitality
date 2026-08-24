@@ -295,19 +295,24 @@
   /* ---------- Contact ---------- */
   .contact-wrap{display:grid; grid-template-columns:1fr 1fr; gap:60px; padding-bottom:96px;}
   @media (max-width:820px){ .contact-wrap{grid-template-columns:1fr; gap:36px;} }
-  .contact-info .row-leader{padding:14px 0; border-bottom:1px solid var(--line);}
-  .contact-info .k{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-soft);}
-  .contact-info .v{font-family:'Fraunces', serif; font-size:1.05rem; white-space:nowrap;}
+  .contact-info{display:flex; flex-direction:column; gap:22px;}
+  .contact-info .item{display:flex; flex-direction:column; gap:4px;}
+  .contact-info .k{font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft);}
+  .contact-info .v{font-family:'Fraunces', serif; font-size:1.15rem;}
   form.book label{display:block; font-family:'IBM Plex Mono', monospace; font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:8px;}
   form.book .field{margin-bottom:22px;}
   form.book input, form.book textarea{
-    width:100%; background:transparent; border:none; border-bottom:1px solid var(--line);
-    padding:8px 2px; font-family:'Work Sans', sans-serif; font-size:1rem; color:var(--ink);
+    width:100%; background:var(--paper-dim); border:1px solid var(--line); border-radius:var(--radius);
+    padding:10px 12px; font-family:'Work Sans', sans-serif; font-size:1rem; color:var(--ink);
   }
-  form.book input:focus, form.book textarea:focus{border-bottom-color:var(--accent);}
+  form.book input:focus, form.book textarea:focus{border-color:var(--accent);}
   form.book textarea{resize:vertical; min-height:90px;}
   form.book .row2{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
   @media (max-width:480px){ form.book .row2{grid-template-columns:1fr;} }
+  .form-status{margin-top:14px; font-size:0.9rem; min-height:1.2em;}
+  .form-status.success{color:var(--accent);}
+  .form-status.error{color:#8a3a3a;}
+  .field-note{display:block; font-size:0.78rem; color:var(--ink-soft); margin-top:6px;}
 
   /* ---------- Footer ---------- */
   footer{background:var(--footer); color:var(--wood-light); padding:44px 0;}
@@ -633,12 +638,12 @@
     </div>
     <div class="contact-wrap">
       <div class="contact-info">
-        <div class="row-leader"><span class="k">Email</span><span class="leader"></span><span class="v">benjamin@offsethospitality.com</span></div>
-        <div class="row-leader"><span class="k">Phone</span><span class="leader"></span><span class="v">(720) 647-3712</span></div>
-        <div class="row-leader"><span class="k">Service Area</span><span class="leader"></span><span class="v">Denver &amp; Front Range</span></div>
-        <div class="row-leader"><span class="k">Lead Time</span><span class="leader"></span><span class="v">2+ weeks preferred</span></div>
+        <div class="item"><span class="k">Email</span><span class="v">benjamin@offsethospitality.com</span></div>
+        <div class="item"><span class="k">Phone</span><span class="v">(720) 647-3712</span></div>
+        <div class="item"><span class="k">Service Area</span><span class="v">Denver &amp; Front Range</span></div>
+        <div class="item"><span class="k">Lead Time</span><span class="v">2+ weeks preferred</span></div>
       </div>
-      <form class="book" action="mailto:benjamin@offsethospitality.com" method="post" enctype="text/plain">
+      <form class="book" id="bookForm" action="https://formspree.io/f/meajwdvr" method="POST">
         <div class="row2">
           <div class="field">
             <label for="fname">Name</label>
@@ -646,24 +651,28 @@
           </div>
           <div class="field">
             <label for="fdate">Event Date</label>
-            <input type="date" id="fdate" name="Event Date">
+            <input type="date" id="fdate" name="Event_Date">
+            <span class="field-note">Weekends welcome — that's most of our bookings.</span>
           </div>
         </div>
         <div class="row2">
           <div class="field">
             <label for="femail">Email</label>
-            <input type="email" id="femail" name="Email" required>
+            <input type="email" id="femail" name="_replyto" required>
           </div>
           <div class="field">
             <label for="fguests">Guest Count</label>
-            <input type="number" id="fguests" name="Guest Count" min="1">
+            <input type="number" id="fguests" name="Guest_Count" min="1">
           </div>
         </div>
         <div class="field">
           <label for="fmsg">Occasion &amp; Details</label>
           <textarea id="fmsg" name="Details" placeholder="What's the occasion, location, and anything we should know?"></textarea>
         </div>
-        <button class="cta-btn" type="submit">Send Inquiry</button>
+        <input type="hidden" name="_subject" value="New inquiry — Offset Hospitality">
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+        <button class="cta-btn" type="submit" id="bookSubmit">Send Inquiry</button>
+        <p class="form-status" id="bookStatus" role="status"></p>
       </form>
     </div>
   </section>
@@ -742,6 +751,41 @@
   document.getElementById('seasonalMenuBtn').addEventListener('click', () => {
     selectMenuTab(currentSeasonMenuId());
     showSection('menus');
+  });
+
+  // ---- Contact form: submit via fetch, no mail app, no page reload ----
+  const bookForm = document.getElementById('bookForm');
+  const bookStatus = document.getElementById('bookStatus');
+  const bookSubmit = document.getElementById('bookSubmit');
+
+  bookForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    bookSubmit.disabled = true;
+    bookSubmit.textContent = 'Sending…';
+    bookStatus.textContent = '';
+    bookStatus.className = 'form-status';
+
+    try {
+      const response = await fetch(bookForm.action, {
+        method: 'POST',
+        body: new FormData(bookForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if(response.ok){
+        bookForm.reset();
+        bookStatus.textContent = "Thanks for reaching out! We are excited about your inquiry and will get in touch soon!";
+        bookStatus.classList.add('success');
+      } else {
+        bookStatus.textContent = "Something went wrong sending that. Please email benjamin@offsethospitality.com directly.";
+        bookStatus.classList.add('error');
+      }
+    } catch (err) {
+      bookStatus.textContent = "Something went wrong sending that. Please email benjamin@offsethospitality.com directly.";
+      bookStatus.classList.add('error');
+    } finally {
+      bookSubmit.disabled = false;
+      bookSubmit.textContent = 'Send Inquiry';
+    }
   });
 
   // ---- Gallery placeholders ----
