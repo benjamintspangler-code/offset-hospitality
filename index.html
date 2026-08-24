@@ -29,9 +29,11 @@
   }
 
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth; overflow-x:hidden;}
   body{
     margin:0;
+    width:100%;
+    overflow-x:hidden;
     background:var(--paper);
     color:var(--ink);
     font-family:'Work Sans', sans-serif;
@@ -138,9 +140,8 @@
     .hide-mobile{display:none;}
   }
 
-  section{display:none; animation:fade 0.35s ease;}
-  section.active{display:block;}
-  @keyframes fade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+  section{scroll-margin-top:110px;}
+  section + section{border-top:1px solid var(--line);}
 
   /* ---------- dot-leader utility (signature motif) ---------- */
   .leader{
@@ -245,7 +246,7 @@
   .menu-card .card-head{display:flex; justify-content:space-between; align-items:baseline; border-bottom:2px solid var(--ink); padding-bottom:16px; margin-bottom:8px; flex-wrap:wrap; gap:8px;}
   .menu-card .card-head h3{font-size:1.7rem;}
   .menu-card .card-head .price-tag{font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--accent);}
-  .menu-tagline{font-family:'Fraunces', serif; font-style:italic; color:var(--accent); font-size:1rem; margin:14px 0 24px;}
+  .menu-tagline{font-family:'Fraunces', serif; font-style:italic; color:var(--accent); font-size:1rem; margin:28px 0 0;}
   .course{padding:28px 0 0;}
   .course .row-leader{margin-bottom:6px;}
   .course .num{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--accent); min-width:20px;}
@@ -344,7 +345,7 @@
 <main class="wrap">
 
   <!-- HOME -->
-  <section id="home" class="active">
+  <section id="home">
     <div class="hero">
       <div class="eyebrow">Private Chef · Denver, CO</div>
       <h1>Colorado Alpine Cooking</h1>
@@ -354,7 +355,7 @@
       <p class="lede">We are here to curate an occasion with you. We work closely to plan everything from the menu to the music.</p>
       <p class="lede">With over ten years of experience as a chef and a lifetime of living in restaurants, we are uniquely suited to bring your dream restaurant into your home.</p>
       <div class="hero-actions">
-        <button class="cta-btn" data-target="contact">Reserve a Date</button>
+        <button class="btn-outline" data-target="contact">Reserve a Date</button>
         <button class="btn-outline" id="seasonalMenuBtn">View Sample Menus</button>
       </div>
     </div>
@@ -379,7 +380,6 @@
       <div class="card-head">
         <h3>New Bloom</h3>
       </div>
-      <p class="menu-tagline">Grounds thaw as growth begins</p>
       <div class="course">
         <div class="row-leader"><span class="name">Hors d'oeuvres</span><span class="leader"></span></div>
         <div class="dish">
@@ -412,14 +412,13 @@
           <p class="dish-desc">almond, buttermilk</p>
         </div>
       </div>
-      <p class="menu-note">Wine pairing available on request. Vegetarian and allergy adaptations built into every course.</p>
+      <p class="menu-tagline">Grounds thaw as growth begins</p>
     </div>
 
     <div class="menu-card" id="midsummer">
       <div class="card-head">
         <h3>Midsummer's Height</h3>
       </div>
-      <p class="menu-tagline">Strong winds willow as the heat settles</p>
       <div class="course">
         <div class="row-leader"><span class="name">Hors d'oeuvres</span><span class="leader"></span></div>
         <div class="dish">
@@ -452,14 +451,13 @@
           <p class="dish-desc">crème fraîche, cherry</p>
         </div>
       </div>
-      <p class="menu-note">Wine pairing available on request. Vegetarian and allergy adaptations built into every course.</p>
+      <p class="menu-tagline">Strong winds willow as the heat settles</p>
     </div>
 
     <div class="menu-card" id="approachingautumn">
       <div class="card-head">
         <h3>Approaching Autumn</h3>
       </div>
-      <p class="menu-tagline">Cool crisp days beckon as warmth slowly fades</p>
       <div class="course">
         <div class="row-leader"><span class="name">Hors d'oeuvres</span><span class="leader"></span></div>
         <div class="dish">
@@ -492,14 +490,13 @@
           <p class="dish-desc">cider, brown butter crumble</p>
         </div>
       </div>
-      <p class="menu-note">Wine pairing available on request. Vegetarian and allergy adaptations built into every course.</p>
+      <p class="menu-tagline">Cool crisp days beckon as warmth slowly fades</p>
     </div>
 
     <div class="menu-card" id="firstfrost">
       <div class="card-head">
         <h3>First Frost</h3>
       </div>
-      <p class="menu-tagline">Nights grow long as cold descends</p>
       <div class="course">
         <div class="row-leader"><span class="name">Hors d'oeuvres</span><span class="leader"></span></div>
         <div class="dish">
@@ -532,7 +529,7 @@
           <p class="dish-desc">toffee custard, cinnamon</p>
         </div>
       </div>
-      <p class="menu-note">Wine pairing available on request. Vegetarian and allergy adaptations built into every course.</p>
+      <p class="menu-tagline">Nights grow long as cold descends</p>
     </div>
   </section>
 
@@ -550,7 +547,7 @@
   <section id="about">
     <div class="page-head">
       <div class="eyebrow">About</div>
-      <h2>Bringing hospitality home</h2>
+      <h2>Everything you love about eating out, brought home.</h2>
     </div>
     <div class="about-body">
       <p>Offset Hospitality is born out of our desire to bring terrific food and exceptional service out of the restaurant and into your home. We have spent over ten years in busy, fine dining restaurants, constantly learning and growing our repertoire of dishes, techniques, and ideas. The greatest thing we have learned from our experience is that the happiest guests we ever had were the ones we truly made to feel at home in the restaurant. We now strive to bring this same hospitality to you, allowing our hosts to relax and enjoy the evening with their guests.</p>
@@ -676,24 +673,19 @@
 <footer>
   <div class="wrap foot-row">
     <span class="mono">OFFSET HOSPITALITY — DENVER, CO</span>
-    <span class="mono">© 2026 · PRIVATE CHEF SERVICES</span>
+    <span class="mono">© 2026 Offset Hospitality LLC</span>
   </div>
 </footer>
 
 <script>
   // ---- Section navigation ----
-  const sections = document.querySelectorAll('main > section');
   const navlinks = document.querySelectorAll('.navlink, [data-target]');
 
   function showSection(id){
-    sections.forEach(s => s.classList.toggle('active', s.id === id));
-    document.querySelectorAll('.navlink').forEach(l => {
-      if(l.dataset.target === id){ l.setAttribute('aria-current','page'); }
-      else { l.removeAttribute('aria-current'); }
-    });
+    const target = document.getElementById(id);
+    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
     document.getElementById('primaryNav').classList.remove('open');
     document.getElementById('menuToggle').setAttribute('aria-expanded','false');
-    window.scrollTo({top:0, behavior:'smooth'});
   }
 
   navlinks.forEach(btn => {
@@ -708,6 +700,22 @@
     const open = nav.classList.toggle('open');
     document.getElementById('menuToggle').setAttribute('aria-expanded', open ? 'true' : 'false');
   });
+
+  // ---- Scroll-spy: highlight the nav link for whichever section is in view ----
+  const spyIds = ['home','about','menus','gallery','faq','contact'];
+  const spySections = spyIds.map(id => document.getElementById(id)).filter(Boolean);
+  const spyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const id = entry.target.id;
+        document.querySelectorAll('.navlink').forEach(l => {
+          if(l.dataset.target === id){ l.setAttribute('aria-current','page'); }
+          else { l.removeAttribute('aria-current'); }
+        });
+      }
+    });
+  }, {rootMargin:'-45% 0px -50% 0px', threshold:0});
+  spySections.forEach(s => spyObserver.observe(s));
 
   // ---- Menu tabs ----
   function selectMenuTab(menuId){
