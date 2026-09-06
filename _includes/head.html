@@ -302,11 +302,11 @@
   .contact-info .v{font-family:'Fraunces', serif; font-size:1.15rem;}
   form.book label{display:block; font-family:'IBM Plex Mono', monospace; font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:8px;}
   form.book .field{margin-bottom:22px;}
-  form.book input, form.book textarea{
+  form.book input, form.book textarea, form.book select{
     width:100%; background:var(--paper-dim); border:1px solid var(--line); border-radius:var(--radius);
     padding:10px 12px; font-family:'Work Sans', sans-serif; font-size:1rem; color:var(--ink);
   }
-  form.book input:focus, form.book textarea:focus{border-color:var(--accent);}
+  form.book input:focus, form.book textarea:focus, form.book select:focus{border-color:var(--accent);}
   form.book textarea{resize:vertical; min-height:90px;}
   form.book .row2{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
   @media (max-width:480px){ form.book .row2{grid-template-columns:1fr;} }
