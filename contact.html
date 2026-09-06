@@ -1,0 +1,106 @@
+---
+nav: contact
+title: Contact — Offset Hospitality
+---
+<!DOCTYPE html>
+<html lang="en">
+{% include head.html %}
+<body>
+
+{% include header.html %}
+
+<main class="wrap">
+
+<!-- CONTACT -->
+  <section id="contact">
+    <div class="page-head">
+      <div class="eyebrow">Contact</div>
+      <h2>Reserve a date.</h2>
+      <p>Tell us the date, guest count, and occasion — a proposed menu and quote typically follow within two business days.</p>
+    </div>
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <div class="item"><span class="k">Email</span><span class="v">benjamin@offsethospitality.com</span></div>
+        <div class="item"><span class="k">Phone</span><span class="v">(720) 647-3712</span></div>
+        <div class="item"><span class="k">Service Area</span><span class="v">Denver &amp; Front Range</span></div>
+        <div class="item"><span class="k">Lead Time</span><span class="v">2+ weeks preferred</span></div>
+      </div>
+      <form class="book" id="bookForm" action="https://formspree.io/f/meajwdvr" method="POST">
+        <div class="row2">
+          <div class="field">
+            <label for="fname">Name</label>
+            <input type="text" id="fname" name="Name" required>
+          </div>
+          <div class="field">
+            <label for="fdate">Event Date</label>
+            <input type="date" id="fdate" name="Event_Date">
+            <span class="field-note">Weekends welcome — that's most of our bookings.</span>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="femail">Email</label>
+            <input type="email" id="femail" name="_replyto" required>
+          </div>
+          <div class="field">
+            <label for="fguests">Guest Count</label>
+            <input type="number" id="fguests" name="Guest_Count" min="1">
+          </div>
+        </div>
+        <div class="field">
+          <label for="fmsg">Occasion &amp; Details</label>
+          <textarea id="fmsg" name="Details" placeholder="What's the occasion, location, and anything we should know?"></textarea>
+        </div>
+        <input type="hidden" name="_subject" value="New inquiry — Offset Hospitality">
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+        <button class="cta-btn" type="submit" id="bookSubmit">Send Inquiry</button>
+        <p class="form-status" id="bookStatus" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+{% include footer.html %}
+
+<script>
+{% include nav-toggle.html %}
+
+  // ---- Contact form: submit via fetch, no mail app, no page reload ----
+  const bookForm = document.getElementById('bookForm');
+  const bookStatus = document.getElementById('bookStatus');
+  const bookSubmit = document.getElementById('bookSubmit');
+
+  bookForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    bookSubmit.disabled = true;
+    bookSubmit.textContent = 'Sending…';
+    bookStatus.textContent = '';
+    bookStatus.className = 'form-status';
+
+    try {
+      const response = await fetch(bookForm.action, {
+        method: 'POST',
+        body: new FormData(bookForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if(response.ok){
+        bookForm.reset();
+        bookStatus.textContent = "Thanks for reaching out! We are excited about your inquiry and will get in touch soon!";
+        bookStatus.classList.add('success');
+      } else {
+        bookStatus.textContent = "Something went wrong sending that. Please email benjamin@offsethospitality.com directly.";
+        bookStatus.classList.add('error');
+      }
+    } catch (err) {
+      bookStatus.textContent = "Something went wrong sending that. Please email benjamin@offsethospitality.com directly.";
+      bookStatus.classList.add('error');
+    } finally {
+      bookSubmit.disabled = false;
+      bookSubmit.textContent = 'Send Inquiry';
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<header class="site">
+  <div class="nav-row">
+    <div class="wordmark">
+      <div class="wm-top"><span class="ofs-word" aria-hidden="true">OFF<sub>SET</sub></span><span class="sr-only">Offset</span> <span class="brand-sub">Hospitality</span></div>
+      <span class="tagline">Front Range, Colorado</span>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle menu">
+      <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="1" x2="20" y2="1" stroke="currentColor" stroke-width="2"/>
+        <line x1="0" y1="7" x2="20" y2="7" stroke="currentColor" stroke-width="2"/>
+        <line x1="0" y1="13" x2="20" y2="13" stroke="currentColor" stroke-width="2"/>
+      </svg>
+    </button>
+    <nav class="primary" id="primaryNav">
+      <a class="navlink" href="{{ '/' | relative_url }}"{% if page.nav == "home" %} aria-current="page"{% endif %}>Home</a>
+      <a class="navlink" href="{{ '/about.html' | relative_url }}"{% if page.nav == "about" %} aria-current="page"{% endif %}>About</a>
+      <a class="navlink" href="{{ '/menus.html' | relative_url }}"{% if page.nav == "menus" %} aria-current="page"{% endif %}>Menus</a>
+      <a class="navlink" href="{{ '/gallery.html' | relative_url }}"{% if page.nav == "gallery" %} aria-current="page"{% endif %}>Gallery</a>
+      <a class="navlink" href="{{ '/faq.html' | relative_url }}"{% if page.nav == "faq" %} aria-current="page"{% endif %}>FAQ</a>
+      <a class="navlink" href="{{ '/contact.html' | relative_url }}"{% if page.nav == "contact" %} aria-current="page"{% endif %}>Contact</a>
+    </nav>
+    <a class="cta-btn hide-mobile" href="{{ '/contact.html' | relative_url }}">Reserve a Date</a>
+  </div>
+</header>

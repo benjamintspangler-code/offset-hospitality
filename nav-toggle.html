@@ -1,0 +1,5 @@
+  document.getElementById('menuToggle').addEventListener('click', () => {
+    const nav = document.getElementById('primaryNav');
+    const open = nav.classList.toggle('open');
+    document.getElementById('menuToggle').setAttribute('aria-expanded', open ? 'true' : 'false');
+  });

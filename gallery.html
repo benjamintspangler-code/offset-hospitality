@@ -1,0 +1,42 @@
+---
+nav: gallery
+title: Gallery — Offset Hospitality
+---
+<!DOCTYPE html>
+<html lang="en">
+{% include head.html %}
+<body>
+
+{% include header.html %}
+
+<main class="wrap">
+
+<!-- GALLERY -->
+  <section id="gallery">
+    <div class="page-head">
+      <div class="eyebrow">Gallery</div>
+      <h2>A few plates from the table.</h2>
+      <p>Photos from recent dinners — swap these placeholders for real shots as events happen.</p>
+    </div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </section>
+
+</main>
+
+{% include footer.html %}
+
+<script>
+{% include nav-toggle.html %}
+
+  // ---- Gallery placeholders ----
+  const galleryGrid = document.getElementById('galleryGrid');
+  for(let i=1; i<=9; i++){
+    const div = document.createElement('div');
+    div.className = 'plate';
+    div.innerHTML = `<span class="plate-num mono">PLATE ${String(i).padStart(2,'0')}</span><span class="plate-label">Add photo</span>`;
+    galleryGrid.appendChild(div);
+  }
+</script>
+
+</body>
+</html>
