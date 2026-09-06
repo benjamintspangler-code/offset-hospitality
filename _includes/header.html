@@ -1,9 +1,9 @@
 <header class="site">
   <div class="nav-row">
-    <div class="wordmark">
+    <a class="wordmark" href="{{ '/' | relative_url }}" aria-label="Offset Hospitality — Home">
       <div class="wm-top"><span class="ofs-word" aria-hidden="true">OFF<sub>SET</sub></span><span class="sr-only">Offset</span> <span class="brand-sub">Hospitality</span></div>
       <span class="tagline">Front Range, Colorado</span>
-    </div>
+    </a>
     <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Toggle menu">
       <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line x1="0" y1="1" x2="20" y2="1" stroke="currentColor" stroke-width="2"/>
@@ -20,13 +20,23 @@
       <a class="navlink" href="{{ '/faq.html' | relative_url }}"{% if page.nav == "faq" %} aria-current="page"{% endif %}>FAQ</a>
       <a class="navlink" href="{{ '/contact.html' | relative_url }}"{% if page.nav == "contact" %} aria-current="page"{% endif %}>Contact</a>
     </nav>
-    <a class="cta-btn hide-mobile" href="{{ '/contact.html' | relative_url }}">Reserve a Date</a>
-    <a class="ig-link" href="https://instagram.com/offsethospitality" target="_blank" rel="noopener" aria-label="Offset Hospitality on Instagram">
+    <a class="ig-link-mobile" href="https://instagram.com/offsethospitality" target="_blank" rel="noopener" aria-label="Offset Hospitality on Instagram">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/>
         <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="2"/>
         <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
       </svg>
     </a>
+    <div class="cta-group hide-mobile">
+      <a class="cta-group-link" href="{{ '/contact.html' | relative_url }}">Reserve a Date</a>
+      <span class="cta-divider" aria-hidden="true"></span>
+      <a class="cta-group-link cta-group-ig" href="https://instagram.com/offsethospitality" target="_blank" rel="noopener" aria-label="Offset Hospitality on Instagram">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="2"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+        </svg>
+      </a>
+    </div>
   </div>
 </header>

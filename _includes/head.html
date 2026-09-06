@@ -90,7 +90,8 @@
   .wordmark{
     font-family:'Fraunces', serif; font-weight:600; font-size:1.35rem;
     letter-spacing:0.01em;
-    display:flex; flex-direction:column; gap:3px; align-items:flex-start;
+    display:flex; flex-direction:column; gap:3px; align-items:center;
+    text-decoration:none; color:inherit;
   }
   .wm-top{
     display:flex; align-items:center; gap:7px;
@@ -113,7 +114,7 @@
     font-family:'IBM Plex Mono', monospace; font-size:0.56rem;
     letter-spacing:0.14em; color:var(--paper-soft); font-weight:400;
     text-transform:uppercase;
-    align-self:flex-end;
+    align-self:center;
   }
   nav.primary{display:flex; gap:2px; align-items:center;}
   nav.primary .navlink{
@@ -140,11 +141,24 @@
     transition:background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   }
   .cta-btn:hover{background:var(--accent); color:var(--paper); border-color:var(--accent);}
-  .nav-row .cta-btn{background:var(--paper); color:var(--header); border-color:var(--paper);}
-  .nav-row .cta-btn:hover{background:var(--moss); color:var(--header); border-color:var(--moss);}
   .hide-mobile{display:inline-flex;}
-  .ig-link{display:inline-flex; align-items:center; justify-content:center; color:var(--paper); padding:6px; margin-left:4px; transition:color 0.15s ease;}
-  .ig-link:hover{color:var(--moss);}
+  .cta-group{
+    display:inline-flex; align-items:stretch;
+    background:var(--paper); border:1px solid var(--paper);
+  }
+  .cta-group-link{
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem;
+    letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--header); text-decoration:none;
+    display:inline-flex; align-items:center;
+    padding:11px 18px;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  .cta-group-link:hover{background:var(--moss); color:var(--header);}
+  .cta-group-ig{padding:11px 14px;}
+  .cta-divider{width:1px; align-self:stretch; background:var(--header); opacity:0.18;}
+  .ig-link-mobile{display:none; align-items:center; justify-content:center; color:var(--paper); padding:6px; transition:color 0.15s ease;}
+  .ig-link-mobile:hover{color:var(--moss);}
   .menu-toggle{display:none; background:none; border:none; color:var(--paper); padding:8px; cursor:pointer; align-items:center; justify-content:center;}
   .menu-toggle svg{display:block;}
   @media (max-width:960px){
@@ -157,6 +171,7 @@
     }
     .menu-toggle{display:inline-flex;}
     .hide-mobile{display:none;}
+    .ig-link-mobile{display:inline-flex;}
   }
 
   section{scroll-margin-top:110px;}
