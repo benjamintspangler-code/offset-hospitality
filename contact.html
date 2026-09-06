@@ -38,9 +38,18 @@ nav: contact
             <label for="fname">Name</label>
             <input type="text" id="fname" name="Name" required>
           </div>
-          <div class="field">
-            <label for="fdate" id="fdateLabel">Event Date</label>
-            <input type="date" id="fdate" name="Event_Date">
+          <div class="field date-field">
+            <label for="dateTrigger" id="fdateLabel">Event Date</label>
+            <button type="button" class="date-trigger" id="dateTrigger" aria-haspopup="true" aria-expanded="false">Select a date</button>
+            <input type="hidden" id="fdate" name="Event_Date">
+            <div class="date-popover" id="datePopover" hidden>
+              <div class="date-popover-header">
+                <button type="button" id="prevMonth" aria-label="Previous month">‹</button>
+                <span id="calMonthLabel" class="mono"></span>
+                <button type="button" id="nextMonth" aria-label="Next month">›</button>
+              </div>
+              <div class="date-grid" id="dateGrid"></div>
+            </div>
             <span class="field-note" id="fdateNote">Weekends welcome — that's most of our bookings.</span>
           </div>
         </div>
@@ -119,9 +128,130 @@ nav: contact
     detailsField.placeholder = c.placeholder;
     guestsLabel.textContent = c.guestsLabel;
     dateNote.textContent = c.dateNote;
+    renderCalendar();
+    // If the previously picked date is no longer valid for the new mode, clear it.
+    if(selectedDate && !isDaySelectable(selectedDate)){
+      selectedDate = null;
+      hiddenDateInput.value = '';
+      dateTrigger.textContent = 'Select a date';
+    }
   }
 
   interestSelect.addEventListener('change', updateDynamicFields);
+
+  // ---- Custom calendar ----
+  const dateTrigger = document.getElementById('dateTrigger');
+  const datePopover = document.getElementById('datePopover');
+  const dateGrid = document.getElementById('dateGrid');
+  const calMonthLabel = document.getElementById('calMonthLabel');
+  const hiddenDateInput = document.getElementById('fdate');
+  const prevMonthBtn = document.getElementById('prevMonth');
+  const nextMonthBtn = document.getElementById('nextMonth');
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  let viewYear = today.getFullYear();
+  let viewMonth = today.getMonth();
+  let selectedDate = null;
+
+  const dowLabels = ['S','M','T','W','T','F','S'];
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  function isWeekend(date){
+    const d = date.getDay();
+    return d === 0 || d === 6;
+  }
+
+  function isDaySelectable(date){
+    if(date < today) return false;
+    if(interestSelect.value === 'Meal Prep' && isWeekend(date)) return false;
+    return true;
+  }
+
+  function formatDisplay(date){
+    const dow = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][date.getDay()];
+    return `${dow}, ${monthNames[date.getMonth()].slice(0,3)} ${date.getDate()}, ${date.getFullYear()}`;
+  }
+
+  function formatSubmit(date){
+    return formatDisplay(date);
+  }
+
+  function renderCalendar(){
+    calMonthLabel.textContent = `${monthNames[viewMonth]} ${viewYear}`;
+    dateGrid.innerHTML = '';
+    dowLabels.forEach(l => {
+      const el = document.createElement('div');
+      el.className = 'dow';
+      el.textContent = l;
+      dateGrid.appendChild(el);
+    });
+
+    const firstOfMonth = new Date(viewYear, viewMonth, 1);
+    const startOffset = firstOfMonth.getDay();
+    const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+    for(let i = 0; i < startOffset; i++){
+      const el = document.createElement('div');
+      el.className = 'day empty';
+      dateGrid.appendChild(el);
+    }
+
+    for(let d = 1; d <= daysInMonth; d++){
+      const date = new Date(viewYear, viewMonth, d);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'day';
+      btn.textContent = d;
+
+      if(!isDaySelectable(date)){
+        btn.classList.add(date < today ? 'is-past' : 'is-closed');
+      }
+      if(selectedDate && date.getTime() === selectedDate.getTime()){
+        btn.classList.add('selected');
+      }
+      btn.addEventListener('click', () => {
+        selectedDate = date;
+        hiddenDateInput.value = formatSubmit(date);
+        dateTrigger.textContent = formatDisplay(date);
+        closePopover();
+        renderCalendar();
+      });
+      dateGrid.appendChild(btn);
+    }
+  }
+
+  function openPopover(){
+    datePopover.hidden = false;
+    dateTrigger.setAttribute('aria-expanded', 'true');
+  }
+  function closePopover(){
+    datePopover.hidden = true;
+    dateTrigger.setAttribute('aria-expanded', 'false');
+  }
+
+  dateTrigger.addEventListener('click', () => {
+    if(datePopover.hidden) openPopover(); else closePopover();
+  });
+
+  document.addEventListener('click', (e) => {
+    if(!datePopover.hidden && !datePopover.contains(e.target) && e.target !== dateTrigger){
+      closePopover();
+    }
+  });
+
+  prevMonthBtn.addEventListener('click', () => {
+    viewMonth--;
+    if(viewMonth < 0){ viewMonth = 11; viewYear--; }
+    renderCalendar();
+  });
+  nextMonthBtn.addEventListener('click', () => {
+    viewMonth++;
+    if(viewMonth > 11){ viewMonth = 0; viewYear++; }
+    renderCalendar();
+  });
+
+  renderCalendar();
   updateDynamicFields();
 
   // ---- Contact form: submit via fetch, no mail app, no page reload ----
