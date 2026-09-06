@@ -73,6 +73,21 @@ nav: contact
 <script>
 {% include nav-toggle.html %}
 
+  // ---- Swap Details placeholder based on Interested In selection ----
+  const interestSelect = document.getElementById('finterest');
+  const detailsField = document.getElementById('fmsg');
+  const placeholders = {
+    'Private Dinner': "What's the occasion, location, and anything we should know?",
+    'Meal Prep': "Location, meals needed per week, dietary restrictions and allergies, and what you like to eat!"
+  };
+
+  function updateDetailsPlaceholder(){
+    detailsField.placeholder = placeholders[interestSelect.value] || placeholders['Private Dinner'];
+  }
+
+  interestSelect.addEventListener('change', updateDetailsPlaceholder);
+  updateDetailsPlaceholder();
+
   // ---- Contact form: submit via fetch, no mail app, no page reload ----
   const bookForm = document.getElementById('bookForm');
   const bookStatus = document.getElementById('bookStatus');
