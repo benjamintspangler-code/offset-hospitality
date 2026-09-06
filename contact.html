@@ -26,15 +26,22 @@ nav: contact
         <div class="item"><span class="k">Lead Time</span><span class="v">2+ weeks preferred</span></div>
       </div>
       <form class="book" id="bookForm" action="https://formspree.io/f/meajwdvr" method="POST">
+        <div class="field">
+          <label for="finterest">Interested In</label>
+          <select id="finterest" name="Interested_In">
+            <option value="Private Dinner">Private Dinner</option>
+            <option value="Meal Prep">Meal Prep</option>
+          </select>
+        </div>
         <div class="row2">
           <div class="field">
             <label for="fname">Name</label>
             <input type="text" id="fname" name="Name" required>
           </div>
           <div class="field">
-            <label for="fdate">Event Date</label>
+            <label for="fdate" id="fdateLabel">Event Date</label>
             <input type="date" id="fdate" name="Event_Date">
-            <span class="field-note">Weekends welcome — that's most of our bookings.</span>
+            <span class="field-note" id="fdateNote">Weekends welcome — that's most of our bookings.</span>
           </div>
         </div>
         <div class="row2">
@@ -43,7 +50,7 @@ nav: contact
             <input type="email" id="femail" name="_replyto" required>
           </div>
           <div class="field">
-            <label for="fguests">Guest Count</label>
+            <label for="fguests" id="fguestsLabel">Guest Count</label>
             <select id="fguests" name="Guest_Count">
               <option value="">Select...</option>
               <option value="1">1</option>
@@ -65,17 +72,9 @@ nav: contact
               <option value="17">17</option>
               <option value="18">18</option>
               <option value="19">19</option>
-              <option value="20">20</option>
               <option value="20+">20+</option>
             </select>
           </div>
-        </div>
-        <div class="field">
-          <label for="finterest">Interested In</label>
-          <select id="finterest" name="Interested_In">
-            <option value="Private Dinner">Private Dinner</option>
-            <option value="Meal Prep">Meal Prep</option>
-          </select>
         </div>
         <div class="field">
           <label for="fmsg">Occasion &amp; Details</label>
@@ -96,20 +95,34 @@ nav: contact
 <script>
 {% include nav-toggle.html %}
 
-  // ---- Swap Details placeholder based on Interested In selection ----
+  // ---- Swap field labels/notes/placeholder based on Interested In selection ----
   const interestSelect = document.getElementById('finterest');
   const detailsField = document.getElementById('fmsg');
-  const placeholders = {
-    'Private Dinner': "What's the occasion, location, and anything we should know?",
-    'Meal Prep': "Location, meals needed per week, dietary restrictions and allergies, and what you like to eat!"
+  const guestsLabel = document.getElementById('fguestsLabel');
+  const dateNote = document.getElementById('fdateNote');
+
+  const content = {
+    'Private Dinner': {
+      placeholder: "What's the occasion, location, and anything we should know?",
+      guestsLabel: "Guest Count",
+      dateNote: "Weekends welcome — that's most of our bookings."
+    },
+    'Meal Prep': {
+      placeholder: "Location, meals needed per week, dietary restrictions and allergies, and what you like to eat!",
+      guestsLabel: "Family Size",
+      dateNote: "Available Monday through Friday."
+    }
   };
 
-  function updateDetailsPlaceholder(){
-    detailsField.placeholder = placeholders[interestSelect.value] || placeholders['Private Dinner'];
+  function updateDynamicFields(){
+    const c = content[interestSelect.value] || content['Private Dinner'];
+    detailsField.placeholder = c.placeholder;
+    guestsLabel.textContent = c.guestsLabel;
+    dateNote.textContent = c.dateNote;
   }
 
-  interestSelect.addEventListener('change', updateDetailsPlaceholder);
-  updateDetailsPlaceholder();
+  interestSelect.addEventListener('change', updateDynamicFields);
+  updateDynamicFields();
 
   // ---- Contact form: submit via fetch, no mail app, no page reload ----
   const bookForm = document.getElementById('bookForm');
